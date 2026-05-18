@@ -34,7 +34,6 @@ export const getProducts = async (
 
   if (!res.ok) throw new Error(`Error al obtener productos: ${res.status}`);
   const data = await res.json();
-  console.log("🛍️ WooCommerce products[0]:", JSON.stringify(data[0], null, 2));
   return data as WooProduct[];
 };
 

@@ -21,7 +21,6 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound();
 
-  console.log("🛍️ product:", JSON.stringify(product, null, 2));
 
   const hasSale = Boolean(product.sale_price);
 
