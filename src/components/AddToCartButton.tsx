@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { useCartStore } from "@/store/cartStore";
-import type { WooProduct } from "@/types/woocommerce";
+import type { WooProduct, WooVariation } from "@/types/woocommerce";
 
-type Props = { product: WooProduct };
+type Props = {
+  product: WooProduct;
+  onVariationChange?: (variation: WooVariation | null) => void; // ← nuevo
+};
 
 const QtyControl = ({
   qty,
@@ -34,34 +37,65 @@ const QtyControl = ({
   </div>
 );
 
-export const AddToCartButton = ({ product }: Props) => {
+export const AddToCartButton = ({ product, onVariationChange }: Props) => {
+
   const [qty, setQty] = useState(1);
   const [selected, setSelected] = useState<Record<string, string>>({});
   const addItem = useCartStore((s) => s.addItem);
 
-  const handleAdd = () => {
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: qty,
-      image: product.images[0]?.src ?? "",
-      slug: product.slug,
-      selectedAttributes: Object.keys(selected).length > 0 ? selected : undefined,
-    });
-  };
+  const isVariantAttr = (name: string) => name.toLowerCase() !== "uso";
+
+ const handleAdd = () => {
+  const activeVariation = product.variations?.find((v) =>
+    v.attributes
+      .filter((a) => isVariantAttr(a.name))
+      .every((a) => selected[a.name] === a.option)
+  );
+
+  addItem({
+    id: product.id,
+    name: product.name,
+    price: activeVariation?.price ?? product.price,
+    quantity: qty,
+    image: product.images[0]?.src ?? "",
+    slug: product.slug,
+    selectedAttributes: Object.keys(selected).length > 0 ? selected : undefined,
+  });
+};
+
+
+function handleSelect(attrName: string, option: string, isActive: boolean) {
+  const next = isActive
+    ? Object.fromEntries(Object.entries(selected).filter(([k]) => k !== attrName))
+    : { ...selected, [attrName]: option };
+
+  setSelected(next);
+
+  if (onVariationChange && product.variations) {
+    const match = product.variations.find((v) =>
+      v.attributes
+        .filter((a) => isVariantAttr(a.name))
+        .every((a) => next[a.name] === a.option)
+    );
+    onVariationChange(match ?? null);
+  }
+}
 
   if (product.type === "variable") {
     const variantAttrs = product.attributes.filter(
       (a) => a.options.length > 0 && a.name.toLowerCase() !== "uso"
     );
-    const allSelected = variantAttrs.length > 0 && variantAttrs.every((a) => Boolean(selected[a.name]));
+    const allSelected =
+      variantAttrs.length > 0 &&
+      variantAttrs.every((a) => Boolean(selected[a.name]));
 
     return (
       <div className="flex flex-col gap-4">
         {variantAttrs.map((attr) => (
           <div key={attr.id}>
-            <p className="mb-2 text-sm font-semibold text-gray-700">{attr.name}</p>
+            <p className="mb-2 text-sm font-semibold text-gray-700">
+              {attr.name}
+            </p>
             <div className="flex flex-wrap gap-2">
               {attr.options.map((option) => {
                 const active = selected[attr.name] === option;
@@ -69,13 +103,7 @@ export const AddToCartButton = ({ product }: Props) => {
                   <button
                     key={option}
                     type="button"
-                    onClick={() =>
-                      setSelected((prev) =>
-                        active
-                          ? Object.fromEntries(Object.entries(prev).filter(([k]) => k !== attr.name))
-                          : { ...prev, [attr.name]: option }
-                      )
-                    }
+                    onClick={() => handleSelect(attr.name, option, active)}
                     className={`rounded-lg border px-4 py-2 text-sm transition-colors ${
                       active
                         ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"

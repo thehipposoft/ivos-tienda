@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
-import { formatARS } from "@/lib/format";
+import { PriceDisplay } from "@/components/PriceDisplay";
 import type { WooProduct } from "@/types/woocommerce";
 
 const PLACEHOLDER = "/assets/images/producto-placeholder.webp";
@@ -46,16 +46,7 @@ export const CatalogProductCard = ({ product }: Props) => {
           </p>
         </Link>
 
-        <div className="flex items-center gap-2">
-          {product.sale_price && (
-            <span className="text-xs text-gray-400 line-through">
-              {formatARS(product.regular_price)}
-            </span>
-          )}
-          <span className="text-sm font-bold text-gray-900">
-            {formatARS(product.price)}
-          </span>
-        </div>
+        <PriceDisplay product={product} size="sm" />
 
         {/* CTA */}
         <div className="mt-auto pt-2">

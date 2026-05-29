@@ -14,7 +14,7 @@ export const CartDrawer = () => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
 
-  const { items, isOpen, closeCart, removeItem, updateQuantity } = useCartStore();
+  const { items, isOpen, closeCart, removeItem, updateQuantity, clearCart } = useCartStore();
 
   const total = items.reduce(
     (sum, item) => sum + Number(item.price) * item.quantity,
@@ -99,9 +99,10 @@ export const CartDrawer = () => {
               </button>
             </div>
           ) : (
+            <>
             <ul className="flex flex-col gap-4">
               {items.map((item) => (
-                <li key={item.id} className="flex gap-4">
+                <li key={item.cartItemId} className="flex gap-4">
                   <Link href={`/catalogo/${item.slug}`} onClick={closeCart} className="shrink-0">
                     <div className="relative h-20 w-20 overflow-hidden rounded-xl bg-gray-100">
                       <Image
@@ -134,7 +135,7 @@ export const CartDrawer = () => {
                       </div>
                       <button
                         type="button"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.cartItemId)}
                         aria-label="Eliminar"
                         className="shrink-0 text-gray-300 transition-colors hover:text-red-400 cursor-pointer"
                       >
@@ -148,7 +149,7 @@ export const CartDrawer = () => {
                       <div className="flex overflow-hidden rounded-lg border border-gray-200">
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
                           className="px-2.5 py-1 text-gray-500 transition-colors hover:bg-gray-100"
                         >
                           −
@@ -158,7 +159,7 @@ export const CartDrawer = () => {
                         </span>
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
                           className="px-2.5 py-1 text-gray-500 transition-colors hover:bg-gray-100"
                         >
                           +
@@ -172,6 +173,15 @@ export const CartDrawer = () => {
                 </li>
               ))}
             </ul>
+
+            <button
+              type="button"
+              onClick={clearCart}
+              className="mt-4 w-full cursor-pointer text-center text-sm text-gray-400 transition-colors hover:text-red-500"
+            >
+              Vaciar carrito
+            </button>
+            </>
           )}
         </div>
 

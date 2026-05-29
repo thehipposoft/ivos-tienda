@@ -105,31 +105,39 @@ export default async function CatalogoPage({ searchParams }: Props) {
               Todos
             </Link>
 
-            {visibleCategories.map((cat) => (
-              <Link
-                key={cat.id}
-                href={buildUrl(pillBase, { category: String(cat.id), page: "1" })}
-                className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
-                  params.category === String(cat.id)
-                    ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
-                    : "border-gray-300 text-gray-700 hover:border-gray-500"
-                }`}
-              >
-                {cat.name}
-              </Link>
-            ))}
+            {visibleCategories.map((cat) => {
+              const active = params.category === String(cat.id);
+              return (
+                <Link
+                  key={cat.id}
+                  href={active ? buildUrl(pillBase, { page: "1" }) : buildUrl(pillBase, { category: String(cat.id), page: "1" })}
+                  className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
+                    active
+                      ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
+                      : "border-gray-300 text-gray-700 hover:border-gray-500"
+                  }`}
+                >
+                  {cat.name}
+                </Link>
+              );
+            })}
 
             {/* Otros */}
-            <Link
-              href={buildUrl(pillBase, { category: OTROS_SENTINEL, page: "1" })}
-              className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
-                params.category === OTROS_SENTINEL
-                  ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
-                  : "border-gray-300 text-gray-700 hover:border-gray-500"
-              }`}
-            >
-              Otros
-            </Link>
+            {(() => {
+              const active = params.category === OTROS_SENTINEL;
+              return (
+                <Link
+                  href={active ? buildUrl(pillBase, { page: "1" }) : buildUrl(pillBase, { category: OTROS_SENTINEL, page: "1" })}
+                  className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
+                    active
+                      ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
+                      : "border-gray-300 text-gray-700 hover:border-gray-500"
+                  }`}
+                >
+                  Otros
+                </Link>
+              );
+            })()}
           </div>
         </div>
 

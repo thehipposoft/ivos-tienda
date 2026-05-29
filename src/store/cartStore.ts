@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 
 export type CartItem = {
   id: number;
+  cartItemId: string;
   name: string;
   price: string;
   quantity: number;
@@ -11,12 +12,26 @@ export type CartItem = {
   selectedAttributes?: Record<string, string>;
 };
 
+// Genera un id estable combinando producto + atributos
+export const buildCartItemId = (
+  id: number,
+  selectedAttributes?: Record<string, string>
+): string => {
+  const attrs = selectedAttributes
+    ? Object.entries(selectedAttributes)
+        .sort(([a], [b]) => a.localeCompare(b)) // orden estable
+        .map(([k, v]) => `${k}:${v}`)
+        .join("|")
+    : "";
+  return attrs ? `${id}-${attrs}` : String(id);
+};
+
 type CartStore = {
   items: CartItem[];
   isOpen: boolean;
-  addItem: (product: CartItem) => void;
-  removeItem: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  addItem: (product: Omit<CartItem, "cartItemId">) => void;
+  removeItem: (cartItemId: string) => void;        // ← string
+  updateQuantity: (cartItemId: string, quantity: number) => void; // ← string
   clearCart: () => void;
   openCart: () => void;
   closeCart: () => void;
@@ -29,36 +44,35 @@ export const useCartStore = create<CartStore>()(
       isOpen: false,
 
       addItem: (product) => {
+        const cartItemId = buildCartItemId(product.id, product.selectedAttributes);
         const items = get().items;
-        const sameVariant = (i: CartItem) =>
-          i.id === product.id &&
-          JSON.stringify(i.selectedAttributes ?? {}) ===
-            JSON.stringify(product.selectedAttributes ?? {});
+        const existing = items.find((i) => i.cartItemId === cartItemId);
 
-        const existing = items.find(sameVariant);
         if (existing) {
           set({
             items: items.map((i) =>
-              sameVariant(i) ? { ...i, quantity: i.quantity + product.quantity } : i
+              i.cartItemId === cartItemId
+                ? { ...i, quantity: i.quantity + product.quantity }
+                : i
             ),
           });
         } else {
-          set({ items: [...items, product] });
+          set({ items: [...items, { ...product, cartItemId }] });
         }
         set({ isOpen: true });
       },
 
-      removeItem: (id) =>
-        set({ items: get().items.filter((i) => i.id !== id) }),
+      removeItem: (cartItemId) =>
+        set({ items: get().items.filter((i) => i.cartItemId !== cartItemId) }),
 
-      updateQuantity: (id, quantity) => {
+      updateQuantity: (cartItemId, quantity) => {
         if (quantity <= 0) {
-          get().removeItem(id);
+          get().removeItem(cartItemId);
           return;
         }
         set({
           items: get().items.map((i) =>
-            i.id === id ? { ...i, quantity } : i
+            i.cartItemId === cartItemId ? { ...i, quantity } : i
           ),
         });
       },
@@ -67,8 +81,6 @@ export const useCartStore = create<CartStore>()(
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
     }),
-    {
-      name: "cart-storage", // se guarda en localStorage
-    }
+    { name: "cart-storage" }
   )
 );

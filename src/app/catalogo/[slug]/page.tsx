@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProductBySlug, getAllProductSlugs } from "@/lib/woocommerce";
-import { formatARS } from "@/lib/format";
 import { Menu } from "@/components/Menu";
 import { ProductGallery } from "@/components/ProductGallery";
-import { AddToCartButton } from "@/components/AddToCartButton";
+import { ProductInfo } from "@/components/ProductInfo";
 
 export const revalidate = 3600;
 
@@ -20,9 +19,6 @@ export default async function ProductPage({ params }: Props) {
   const product = await getProductBySlug(slug);
 
   if (!product) notFound();
-
-
-  const hasSale = Boolean(product.sale_price);
 
   return (
     <>
@@ -71,17 +67,8 @@ export default async function ProductPage({ params }: Props) {
               {product.name}
             </h1>
 
-            {/* Price */}
-            <div className="mb-6 flex items-baseline gap-3">
-              {hasSale && (
-                <span className="text-lg text-gray-400 line-through">
-                  {formatARS(product.regular_price)}
-                </span>
-              )}
-              <span className="text-3xl font-bold text-gray-900">
-                {formatARS(product.price)}
-              </span>
-            </div>
+            {/* Precio + selector de variantes + botón carrito */}
+            <ProductInfo product={product} />
 
             {/* Short description */}
             {product.short_description && (
@@ -99,14 +86,13 @@ export default async function ProductPage({ params }: Props) {
                   En stock
                 </span>
               ) : product.stock_status === "onbackorder" ? (
-                <span className="text-sm text-yellow-600">Disponible bajo pedido</span>
+                <span className="text-sm text-yellow-600">
+                  Disponible bajo pedido
+                </span>
               ) : (
                 <span className="text-sm text-red-500">Sin stock</span>
               )}
             </div>
-
-            {/* Add to cart */}
-            <AddToCartButton product={product} />
 
             {/* Attributes */}
             {product.attributes.length > 0 && (

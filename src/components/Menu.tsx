@@ -69,7 +69,7 @@ export const Menu = () => {
               <li key={label}>
                 <Link
                   href={categoryId ? `/catalogo?category=${categoryId}&page=1` : "/catalogo"}
-                  className="whitespace-nowrap text-sm font-medium text-gray-800 transition-colors duration-200 hover:text-[#F94E19]"
+                  className="text-sm font-medium text-gray-800 transition-colors duration-200 hover:text-[#F94E19]"
                 >
                   {label}
                 </Link>
@@ -80,6 +80,7 @@ export const Menu = () => {
 
         {/* Icons */}
         <div className="flex shrink-0 items-center gap-5">
+          <Link className="text-sm font-semibold hover:underline text-brand-orange" href="/#contacto">Contacto</Link>
           <button
             type="button"
             aria-label="Buscar"

@@ -1,20 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PriceDisplay } from "@/components/PriceDisplay";
 import type { WooProduct } from "@/types/woocommerce";
-
-const formatARS = (price: string): string => {
-  if (!price) return "";
-  return new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    maximumFractionDigits: 2,
-  }).format(Number(price));
-};
 
 type Props = { product: WooProduct };
 
 export const ProductCard = ({ product }: Props) => {
-  const hasSale = Boolean(product.sale_price);
   const ctaLabel =
     product.type === "variable" ? "Seleccionar opciones" : "Añadir al carrito";
 
@@ -46,16 +37,7 @@ export const ProductCard = ({ product }: Props) => {
         <p className="text-lg font-semibold leading-tight text-brand-blue">
           {product.name}
         </p>
-        <div className="flex items-center gap-2">
-          {hasSale && (
-            <span className="text-md text-gray-400 line-through">
-              {formatARS(product.regular_price)}
-            </span>
-          )}
-          <span className="text-md font-bold text-gray-900">
-            {formatARS(product.price)}
-          </span>
-        </div>
+        <PriceDisplay product={product} size="md" />
 
         {/* CTA — visible on hover */}
         <button

@@ -107,7 +107,7 @@ export default function FinalizarPage() {
                       </div>
                       <button
                         type="button"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.cartItemId)}
                         aria-label="Eliminar"
                         className="shrink-0 text-gray-300 transition-colors hover:text-red-400"
                       >
@@ -121,7 +121,7 @@ export default function FinalizarPage() {
                       <div className="flex overflow-hidden rounded-lg border border-gray-200">
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
                           className="px-2.5 py-1 text-sm text-gray-500 transition-colors hover:bg-gray-100"
                         >
                           −
@@ -131,7 +131,7 @@ export default function FinalizarPage() {
                         </span>
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
                           className="px-2.5 py-1 text-sm text-gray-500 transition-colors hover:bg-gray-100"
                         >
                           +

@@ -10,7 +10,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Tienda IVOS",
+  title: "Tienda IVOS - Revestimientos Alternativos",
   description: "Combinamos conocimiento técnico y visión estética para seleccionar materiales de alta calidad, proponer soluciones innovadoras y garantizar resultados eficientes. No solo vendemos insumos, sino que ayudamos a construir espacios mejor diseñados y más eficientes.",
   keywords: "Tienda IVOS, materiales de alta calidad, soluciones innovadoras, espacios mejor diseñados, revestimientos",
 };
