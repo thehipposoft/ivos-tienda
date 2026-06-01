@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "@/styles/globals.css";
 import { CartDrawer } from "@/components/CartDrawer";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -23,6 +24,7 @@ export const RootLayout = ({
       <body className="min-h-full flex flex-col">
         {children}
         <CartDrawer />
+        <WhatsAppButton />
       </body>
     </html>
   );

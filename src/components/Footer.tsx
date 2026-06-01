@@ -30,7 +30,7 @@ export const Footer = () => {
             <div className='rounded-full bg-white w-12 h-12 flex justify-center items-center'>
               <svg width="19" height="19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.332 1.37891c.3868.10547.668.42187.668.80859C19 11.2227 11.6875 18.5 2.6875 18.5c-.42188 0-.73828-.2461-.84375-.6328L1 14.2109c-.070312-.3867.10547-.8086.49219-.9843l3.9375-1.6875c.35156-.1407.73828-.0352.98437.2461l1.75782 2.1445c2.74222-1.3008 4.95702-3.5508 6.22262-6.22267L12.25 5.94922c-.2812-.2461-.3867-.63281-.2461-.98438l1.6875-3.9375c.1758-.386715.5977-.597652.9844-.492184l3.6562.843754Z" fill="#F94E19"/></svg>
             </div>
-            <Link className='text-white hover:underline' href={'tel:+543875296426'}>+54 9 387 529-6426</Link>
+            <Link className='text-white hover:underline' href={'tel:+543875750595'}>+54 9 3875 75-0595</Link>
           </div>
         </div>
         <div className='flex flex-col gap-4'>
