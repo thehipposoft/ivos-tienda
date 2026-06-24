@@ -3,7 +3,7 @@ import type { WooVariation, WooProduct } from "@/types/woocommerce";
 
 const SIZE_CLASSES = {
   lg: { price: "text-3xl font-bold", sale: "text-3xl font-bold" },
-  md: { price: "text-base font-bold", sale: "text-base font-bold" },
+  md: { price: "text-[14px] md:text-base font-bold", sale: "text-[14px] md:text-base font-bold" },
   sm: { price: "text-sm font-bold", sale: "text-sm font-bold" },
 } as const;
 

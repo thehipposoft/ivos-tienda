@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const Footer = () => {
   return (
     <div id='contacto' className=' bg-brand-blue gap-16 flex flex-col'>
-      <div className='w-[85vw] py-8 px-12 lg:px-8 gap-8 lg:gap-0 flex lg:flex-row flex-col justify-between lg:items-center border-b border-r border-[#F94E19] mx-auto'>
+      <div className='w-[85vw] py-8 lg:px-8 gap-6 lg:gap-0 flex lg:flex-row flex-col justify-between lg:items-center border-b border-r border-[#F94E19] mx-auto'>
         <div className='flex flex-col gap-6'>
           <Image className='w-[220px] h-[90px] mx-auto md:mx-0' src={'/assets/images/logo-blanco.png'} alt='Logo IVOS blanco' width={558} height={237} />
           <iframe 
@@ -15,7 +15,7 @@ export const Footer = () => {
             allowFullScreen={true}
             loading="lazy" 
             referrerPolicy="no-referrer-when-downgrade"
-            className='w-[85vw] md:w-[350px] h-[300px] md:h-[200px]'
+            className='w-[85vw] md:w-[350px] h-[200px] md:h-[200px]'
           >
           </iframe>
         </div>

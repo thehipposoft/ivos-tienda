@@ -6,12 +6,12 @@ import type { WooProduct } from "@/types/woocommerce";
 import { ProductCard } from "@/components/ProductCard";
 
 const BREAKPOINTS = { md: 768, lg: 1024 } as const;
+const STEP = 2;
 
 const getIpp = (): number => {
   if (typeof window === "undefined") return 4;
   if (window.innerWidth >= BREAKPOINTS.lg) return 4;
-  if (window.innerWidth >= BREAKPOINTS.md) return 2;
-  return 1;
+  return 2;
 };
 
 type Props = { products: WooProduct[] };
@@ -39,12 +39,11 @@ export const ProductSlider = ({ products }: Props) => {
 
   const goTo = (newIdx: number) => {
     const clamped = Math.max(0, Math.min(newIdx, maxIdx));
-    const cw = containerRef.current?.offsetWidth ?? 0;
-    gsap.to(trackRef.current, {
-      x: -(clamped * (cw / ipp)),
-      duration: 0.55,
-      ease: "power2.out",
-    });
+    const track = trackRef.current;
+    if (!track) return;
+    const targetItem = track.children[clamped] as HTMLElement | undefined;
+    const offset = targetItem?.offsetLeft ?? 0;
+    gsap.to(track, { x: -offset, duration: 0.55, ease: "power2.out" });
     setIdx(clamped);
   };
 
@@ -57,10 +56,10 @@ export const ProductSlider = ({ products }: Props) => {
       {/* Left arrow */}
       <button
         type="button"
-        onClick={() => goTo(idx - 1)}
+        onClick={() => goTo(idx - STEP)}
         disabled={idx === 0}
         aria-label="Anterior"
-        className="absolute cursor-pointer left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded border border-gray-300 bg-white text-gray-800 transition-colors hover:border-brand-orange disabled:cursor-not-allowed disabled:opacity-30"
+        className="absolute cursor-pointer lg:left-0 left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded border border-gray-300 bg-white text-gray-800 transition-colors hover:border-brand-orange disabled:cursor-not-allowed disabled:opacity-30"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="m15 18-6-6 6-6" />
@@ -69,9 +68,9 @@ export const ProductSlider = ({ products }: Props) => {
 
       {/* Track container */}
       <div ref={containerRef} className="mx-12 overflow-hidden">
-        <div ref={trackRef} style={trackStyle} className="flex will-change-transform gap-4">
+        <div ref={trackRef} style={trackStyle} className="flex will-change-transform">
           {products.map((product) => (
-            <div key={product.id} style={itemStyle} className="shrink-0 max-h-max ">
+            <div key={product.id} style={itemStyle} className="shrink-0 pr-3">
               <ProductCard product={product} />
             </div>
           ))}
@@ -81,10 +80,10 @@ export const ProductSlider = ({ products }: Props) => {
       {/* Right arrow */}
       <button
         type="button"
-        onClick={() => goTo(idx + 1)}
+        onClick={() => goTo(idx + STEP)}
         disabled={idx >= maxIdx}
         aria-label="Siguiente"
-        className="absolute cursor-pointer right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded border border-gray-300 bg-white text-gray-800 transition-colors hover:border-brand-orange disabled:cursor-not-allowed disabled:opacity-30"
+        className="absolute cursor-pointer right-2 lg:right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded border border-gray-300 bg-white text-gray-800 transition-colors hover:border-brand-orange disabled:cursor-not-allowed disabled:opacity-30"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="m9 18 6-6-6-6" />
@@ -92,19 +91,28 @@ export const ProductSlider = ({ products }: Props) => {
       </button>
 
       {/* Dots */}
-      <div className="mt-6 flex justify-center gap-2">
-        {Array.from({ length: maxIdx + 1 }, (_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => goTo(i)}
-            aria-label={`Producto ${i + 1}`}
-            className={`h-3 w-3 rounded-full cursor-pointer transition-colors duration-200 ${
-              i === idx ? "bg-gray-800" : "bg-gray-300"
-            }`}
-          />
-        ))}
-      </div>
+      {(() => {
+        const numDots = Math.ceil((maxIdx + 1) / STEP);
+        const dotTargets = Array.from({ length: numDots }, (_, i) =>
+          i === numDots - 1 ? maxIdx : i * STEP
+        );
+        const activeDot = Math.min(Math.floor(idx / STEP), numDots - 1);
+        return (
+          <div className="mt-6 flex justify-center gap-2">
+            {dotTargets.map((target, i) => (
+              <button
+                key={target}
+                type="button"
+                onClick={() => goTo(target)}
+                aria-label={`Página ${i + 1}`}
+                className={`h-3 w-3 rounded-full cursor-pointer transition-colors duration-200 ${
+                  i === activeDot ? "bg-gray-800" : "bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+        );
+      })()}
     </div>
   );
 };

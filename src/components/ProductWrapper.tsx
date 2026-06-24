@@ -8,8 +8,8 @@ export const ProductWrapper = async ({ title, buttonText, buttonHref }: Props) =
   const products = await getProducts({ per_page: 20 });
 
   return (
-    <section className=" py-12 max-w-7xl mx-auto">
-      <h2 className="mb-8 text-4xl font-bold text-gray-900">{title}</h2>
+    <section className=" py-12 max-w-7xl mx-auto text-center lg:text-left">
+      <h2 className="mb-8 text-4xl font-bold text-gray-900  ">{title}</h2>
       <ProductSlider products={products} />
       {buttonText && buttonHref && (
         <Link

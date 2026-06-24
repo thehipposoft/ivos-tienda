@@ -24,6 +24,12 @@ const PRODUCT_FIELDS = [
 
 const authParams = () => `consumer_key=${KEY}&consumer_secret=${SECRET}`;
 
+const USO_TERM_IDS: Record<string, string> = {
+  interior: "222",
+  exterior: "221",
+  "interior-y-exterior": "201",
+};
+
 export type GetProductsParams = {
   category?: string;
   per_page?: number;
@@ -96,7 +102,7 @@ export const getProductsWithMeta = async (
     ...(params.min_price && { min_price: params.min_price }),
     ...(params.max_price && { max_price: params.max_price }),
     ...(params.search && { search: params.search }),
-    ...(params.uso && { attribute: "pa_uso", attribute_term: params.uso }),
+    ...(params.uso && USO_TERM_IDS[params.uso] && { attribute: "pa_uso", attribute_term: USO_TERM_IDS[params.uso] }),
   });
 
   const res = await fetch(

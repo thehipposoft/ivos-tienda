@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -19,6 +20,7 @@ const NAV_ITEMS = [
 
 export const Menu = () => {
   const pillRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
   const { openCart, items } = useCartStore();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -28,7 +30,7 @@ export const Menu = () => {
         start: "100px top",
         onEnter: () =>
           gsap.to(pillRef.current, {
-            width: "72%",
+            width: window.innerWidth < 768 ? "80%" : "72%",
             duration: 1,
             ease: "power2.out",
           }),
@@ -48,7 +50,7 @@ export const Menu = () => {
     <header className="pointer-events-none fixed left-0 right-0 top-4 z-50 flex justify-center">
       <div
         ref={pillRef}
-        className="pointer-events-auto flex w-[92%] max-w-7xl items-center justify-between rounded-4xl bg-white px-8 py-4 shadow-lg"
+        className="pointer-events-auto flex w-[92%] max-w-7xl items-center justify-between rounded-4xl bg-white px-6 lg:px-8 py-4 shadow-lg"
       >
         {/* Logo */}
         <Link href="/" className="shrink-0">
@@ -78,8 +80,11 @@ export const Menu = () => {
         </nav>
 
         {/* Icons */}
-        <div className="flex shrink-0 items-center gap-5">
-          <Link className="text-sm font-semibold hover:underline text-brand-orange" href="/#contacto">Contacto</Link>
+        <div className="flex shrink-0 items-center lg:gap-5 gap-2">
+          <Link className="hidden lg:block text-sm font-semibold hover:underline text-brand-orange" href="#contacto">Contacto</Link>
+          {pathname !== "/catalogo" && (
+            <Link className=" text-xs lg:text-sm font-semibold text-white bg-brand-blue px-4 py-2 rounded-4xl hover:bg-white hover:text-brand-blue border border-brand-blue duration-300" href="/catalogo">Ver Catálogo</Link>
+          )}
           <button
             type="button"
             aria-label="Buscar"

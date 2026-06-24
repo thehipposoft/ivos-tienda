@@ -53,7 +53,7 @@ export const Categorias = ({ title, subtitle }: Props) => (
 
         {/* INTERIOR — card principal */}
         <Link
-          href="/catalogo?category=96&page=1"
+          href="/catalogo?uso=interior&page=1"
           className="group relative col-span-3 min-h-48 overflow-hidden rounded-xl md:row-span-2"
         >
           <Image
@@ -65,7 +65,7 @@ export const Categorias = ({ title, subtitle }: Props) => (
           />
           <div className="absolute inset-0 bg-brand-blue/20" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <span className="text-5xl font-bold uppercase tracking-widest text-white drop-shadow">
+            <span className="text-5xl font-bold uppercase tracking-wide text-white drop-shadow">
               Interior
             </span>
           </div>
@@ -73,7 +73,7 @@ export const Categorias = ({ title, subtitle }: Props) => (
 
         {/* EXTERIOR — card principal */}
         <Link
-          href="/catalogo?category=93&page=1"
+          href="/catalogo?uso=exterior&page=1"
           className="group relative col-span-3 min-h-48 overflow-hidden rounded-xl md:row-span-2"
         >
           <Image
@@ -84,7 +84,7 @@ export const Categorias = ({ title, subtitle }: Props) => (
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <span className="text-5xl font-bold uppercase tracking-widest text-white drop-shadow">
+            <span className="text-5xl font-bold uppercase tracking-wide text-white drop-shadow">
               Exterior
             </span>
           </div>

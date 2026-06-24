@@ -33,16 +33,16 @@ export const ProductCard = ({ product }: Props) => {
       </div>
 
       {/* Info */}
-      <div className="flex flex-col items-center gap-1  px-4 pb-5 pt-4 text-center">
-        <p className="text-lg font-semibold leading-tight text-brand-blue">
+      <div className="flex flex-col items-center gap-1 px-2 pb-3 pt-2 text-center md:px-4 md:pb-5 md:pt-4">
+        <p className="text-xs font-semibold leading-tight text-brand-blue md:text-lg">
           {product.name}
         </p>
         <PriceDisplay product={product} size="md" />
 
-        {/* CTA — visible on hover */}
+        {/* CTA — always visible on mobile, hover-only on desktop */}
         <button
           type="button"
-          className="mt-2 w-full border-brand-blue border py-2 text-[11px] font-bold uppercase tracking-widest text-brand-blue opacity-0 duration-300 group-hover:opacity-100 hover:bg-brand-orange hover:border-brand-orange hover:text-white hover:cursor-pointer"
+          className="mt-2 w-full border border-brand-blue py-1.5 text-[9px] font-bold uppercase tracking-widest text-brand-blue duration-300 md:py-2 md:text-[11px] md:opacity-0 md:group-hover:opacity-100 hover:bg-brand-orange hover:border-brand-orange hover:text-white hover:cursor-pointer"
         >
           {ctaLabel}
         </button>

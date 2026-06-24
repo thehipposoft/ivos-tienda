@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "@/styles/globals.css";
 import { CartDrawer } from "@/components/CartDrawer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import Footer from "@/components/Footer";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -25,6 +26,7 @@ export const RootLayout = ({
         {children}
         <CartDrawer />
         <WhatsAppButton />
+        <Footer />
       </body>
     </html>
   );

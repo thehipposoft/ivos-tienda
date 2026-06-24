@@ -3,7 +3,6 @@ import { Menu } from "@/components/Menu";
 import { HeroSlider } from "@/components/HeroSlider";
 import { Categorias } from "@/components/Categorias";
 import { ProductWrapper } from "@/components/ProductWrapper";
-import { Footer } from "@/components/Footer";
 
 const Home = () => {
   return (
@@ -20,10 +19,9 @@ const Home = () => {
           subtitle="Nueva generación de materiales"
         />
         <Suspense fallback={<p className="p-8 text-gray-500">Cargando productos...</p>}>
-          <ProductWrapper title="Últimos productos" buttonText="Ver todos los productos" buttonHref="/catalogo" />
+          <ProductWrapper title="Productos destacados" buttonText="Ver todos los productos" buttonHref="/catalogo" />
         </Suspense>
       </main>
-      <Footer />
     </>
   );
 };

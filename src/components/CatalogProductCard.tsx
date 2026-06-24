@@ -41,7 +41,7 @@ export const CatalogProductCard = ({ product }: Props) => {
       {/* Info */}
       <div className="flex flex-1 flex-col gap-1 p-3">
         <Link href={`/catalogo/${product.slug}`}>
-          <p className="line-clamp-2 text-sm font-semibold leading-tight text-gray-900 hover:text-[#F94E19]">
+          <p className="line-clamp-2 lg:text-sm text-xs font-semibold leading-tight text-gray-900 hover:text-[#F94E19]">
             {product.name}
           </p>
         </Link>
