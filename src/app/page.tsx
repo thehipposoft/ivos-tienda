@@ -14,10 +14,10 @@ const Home = () => {
         <Categorias
           title={
             <>
-              REMODELÁ <span className="font-bold">SIN OBRA</span>
+               <span className="font-bold">INNOVACIÓN</span>
             </>
           }
-          subtitle="Una nueva generación de materiales"
+          subtitle="Nueva generación de materiales"
         />
         <Suspense fallback={<p className="p-8 text-gray-500">Cargando productos...</p>}>
           <ProductWrapper title="Últimos productos" buttonText="Ver todos los productos" buttonHref="/catalogo" />

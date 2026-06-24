@@ -30,6 +30,11 @@ export type WooVariation = {
   sale_price: string;
   stock_status: "instock" | "outofstock" | "onbackorder";
   attributes: WooVariationAttribute[];
+   image: {          
+    id: number;
+    src: string;
+    alt: string;
+  } | null;
 };
 
 export type PriceRange = {

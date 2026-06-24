@@ -16,28 +16,44 @@ type HeroSlide = {
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    tag: "Últimos ingresos",
-    title: "REVESTIMIENTOS EXTERIORES",
-    text: "Perfectos para utilizar en oficinas, restaurantes, salas de reuniones, bibliotecas, hoteles, residencias, entre otros.",
+    tag: "Material Premium",
+    title: "StoneFlex Exclusivos",
+    text: "Revestimientos de piedra flexible que combinan textura natural con tecnología moderna. Livianos, impermeables y de fácil instalación.",
     buttonLabel: "Ver Productos",
-    buttonHref: "/catalogo",
+    buttonHref: "/catalogo?category=65&page=1",
     image: "/assets/images/banner/banner1.jpg",
   },
   {
-    tag: "Nueva colección",
-    title: "Placas de PVC",
-    text: "Revestimientos de pared ideales para colocar en espacios interiores y semiexteriores, impermeables e ignífugas!",
+    tag: "Nueva línea",
+    title: "Mutchek",
+    text: "Solución versátil para revestir paredes interiores y exteriores con un acabado premium, resistente al tiempo y a la intemperie.",
     buttonLabel: "Ver Productos",
-    buttonHref: "/catalogo",
+    buttonHref: "/catalogo?category=92&page=1",
     image: "/assets/images/banner/banner2.jpg",
   },
   {
-    tag: "Tendencia",
-    title: "Paneles Acústicos",
-    text: "Perfectos para utilizar en oficinas, restaurantes, salas de reuniones, bibliotecas, hoteles, residencias, entre otros.",
-    buttonLabel: "Ver Productos",
-    buttonHref: "/catalogo",
+    tag: "Showroom abierto",
+    title: "Estamos en Salta",
+    text: "Visitanos en nuestra oficina en Salta Capital. Atención personalizada para que puedas ver y tocar los materiales antes de decidir.",
+    buttonLabel: "Contactanos",
+    buttonHref: "/#contacto",
     image: "/assets/images/banner/banner3.jpg",
+  },
+  {
+    tag: "Asesoramiento profesional",
+    title: "Equipo de Arquitectos",
+    text: "Somos arquitectos especializados que te acompañan en cada etapa de tu proyecto, desde la elección del material hasta el acabado final.",
+    buttonLabel: "Consultanos",
+    buttonHref: "/#contacto",
+    image: "/assets/images/banner/banner1.jpg",
+  },
+  {
+    tag: "Servicio completo",
+    title: "Hacemos Instalaciones",
+    text: "Nos encargamos del traslado, la colocación y el acabado de todos nuestros materiales. Vos solo tenés que disfrutar el resultado.",
+    buttonLabel: "Consultanos",
+    buttonHref: "/#contacto",
+    image: "/assets/images/banner/banner2.jpg",
   },
 ];
 
@@ -106,7 +122,7 @@ export const HeroSlider = () => {
   const next = () => goTo((currentRef.current + 1) % HERO_SLIDES.length);
 
   return (
-    <div className="relative h-[600px] max-h-[90vh] w-full overflow-hidden">
+    <div className="relative h-150 max-h-[90vh] w-full overflow-hidden">
       {HERO_SLIDES.map((slide, i) => (
         <div
           key={i}
@@ -141,7 +157,7 @@ export const HeroSlider = () => {
             </p>
             <Link
               href={slide.buttonHref}
-              className="inline-block w-fit rounded-xl bg-brand-orange px-8 py-3.5 text-sm font-bold text-white duration-300 hover:bg-white/0 border border-brand-orange"
+              className="inline-block w-fit rounded-xl bg-brand-orange px-8 py-3.5 text-sm font-bold text-white duration-300 hover:bg-white/0 hover:underline border border-brand-orange"
             >
               {slide.buttonLabel}
             </Link>
@@ -154,7 +170,7 @@ export const HeroSlider = () => {
         type="button"
         onClick={prev}
         aria-label="Anterior"
-        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center text-white/50 transition-colors duration-200 hover:text-white"
+        className="absolute cursor-pointer left-4 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center text-white/50 transition-colors duration-200 hover:text-white"
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="m15 18-6-6 6-6" />
@@ -166,7 +182,7 @@ export const HeroSlider = () => {
         type="button"
         onClick={next}
         aria-label="Siguiente"
-        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center text-white/50 transition-colors duration-200 hover:text-white"
+        className="absolute cursor-pointer right-4 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center text-white/50 transition-colors duration-200 hover:text-white"
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="m9 18 6-6-6-6" />
@@ -181,7 +197,7 @@ export const HeroSlider = () => {
             type="button"
             onClick={() => goTo(i)}
             aria-label={`Slide ${i + 1}`}
-            className={`h-2.5 w-2.5 rounded-full border-2 border-white transition-colors duration-400 ${
+            className={`h-2.5 w-2.5 cursor-pointer rounded-full border-2 border-white transition-colors duration-400 ${
               i === current ? "bg-white" : "bg-transparent"
             }`}
           />

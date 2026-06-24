@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getProductsWithMeta, getCategories } from "@/lib/woocommerce";
 import { Menu } from "@/components/Menu";
 import { CatalogProductCard } from "@/components/CatalogProductCard";
+import { CatalogFilterPanel } from "@/components/CatalogFilterPanel";
 
 const PER_PAGE = 12;
 
@@ -143,7 +144,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
 
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Sidebar */}
-          <aside className="w-full shrink-0 lg:w-52">
+          <CatalogFilterPanel>
 
             {/* Búsqueda */}
             <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
@@ -272,7 +273,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
                 </Link>
               )}
             </form>
-          </aside>
+          </CatalogFilterPanel>
 
           {/* Grid */}
           <div className="flex-1">

@@ -136,12 +136,11 @@ function calcPriceRange(variations: WooVariation[]): PriceRange | undefined {
   };
 }
 
-// ── NUEVO: fetch de variaciones de un producto ─────────
 export const getProductVariations = async (
   productId: number
 ): Promise<WooVariation[]> => {
   const res = await fetch(
-    `${BASE_URL}/wp-json/wc/v3/products/${productId}/variations?per_page=100&_fields=id,price,regular_price,sale_price,stock_status,attributes&${authParams()}`,
+    `${BASE_URL}/wp-json/wc/v3/products/${productId}/variations?per_page=100&_fields=id,price,regular_price,sale_price,stock_status,attributes,image&${authParams()}`,
     { next: { revalidate: 60 } }
   );
   if (!res.ok) return [];

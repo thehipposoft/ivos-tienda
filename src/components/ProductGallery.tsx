@@ -6,11 +6,18 @@ import type { WooImage } from "@/types/woocommerce";
 
 const PLACEHOLDER = "/assets/images/producto-placeholder.webp";
 
-type Props = { images: WooImage[] };
+type ActiveImage = { src: string; alt: string };
+type Props = { 
+  images: WooImage[];
+  activeImage?: ActiveImage | null;
+  onThumbnailClick?: () => void;  // ← nuevo
+};
 
-export const ProductGallery = ({ images }: Props) => {
+export const ProductGallery = ({ images, activeImage, onThumbnailClick }: Props) => {
   const [active, setActive] = useState(0);
-  const main = images[active];
+
+  // Si hay una imagen de variación activa, la muestra; sino usa el índice normal
+  const main = activeImage ?? images[active];
 
   return (
     <div className="flex flex-col gap-3">
@@ -31,7 +38,7 @@ export const ProductGallery = ({ images }: Props) => {
             <button
               key={img.id}
               type="button"
-              onClick={() => setActive(i)}
+              onClick={() => { setActive(i); onThumbnailClick?.(); }}
               className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
                 i === active ? "border-[#F94E19]" : "border-gray-200 hover:border-gray-400"
               }`}

@@ -10,12 +10,11 @@ import { useCartStore } from "@/store/cartStore";
 gsap.registerPlugin(ScrollTrigger);
 
 const NAV_ITEMS = [
-  { label: "Placas PVC",        categoryId: 95 },
-  { label: "Paneles Acústicos", categoryId: 97 },
-  { label: "Chapas Caladas",    categoryId: 94 },
-  { label: "WPC Exterior",      categoryId: 93 },
-  { label: "Wallpanel",         categoryId: 96 },
-  { label: "StoneFlex",         categoryId: 65 },
+  { label: "Stoneflex",   categoryId: 65 },
+  { label: "Mutchek",     categoryId: 92 },
+  { label: "Placas PVC",  categoryId: 95 },
+  { label: "Wall Panel",  categoryId: 96 },
+  { label: "Chapas Caladas", categoryId: 94 },
 ] satisfies { label: string; categoryId: number }[];
 
 export const Menu = () => {

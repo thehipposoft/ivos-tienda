@@ -45,7 +45,7 @@ export const AddToCartButton = ({ product, onVariationChange }: Props) => {
 
   const isVariantAttr = (name: string) => name.toLowerCase() !== "uso";
 
- const handleAdd = () => {
+const handleAdd = () => {
   const activeVariation = product.variations?.find((v) =>
     v.attributes
       .filter((a) => isVariantAttr(a.name))
@@ -57,7 +57,8 @@ export const AddToCartButton = ({ product, onVariationChange }: Props) => {
     name: product.name,
     price: activeVariation?.price ?? product.price,
     quantity: qty,
-    image: product.images[0]?.src ?? "",
+    // ↓ usa la imagen de la variación si existe, sino la del producto
+    image: activeVariation?.image?.src || product.images[0]?.src || "",
     slug: product.slug,
     selectedAttributes: Object.keys(selected).length > 0 ? selected : undefined,
   });
