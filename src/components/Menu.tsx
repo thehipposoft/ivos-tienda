@@ -47,7 +47,7 @@ export const Menu = () => {
   }, []);
 
   return (
-    <header className="pointer-events-none fixed left-0 right-0 top-4 z-50 flex justify-center">
+    <header className="pointer-events-none sticky left-0 right-0 top-4 z-50 flex justify-center">
       <div
         ref={pillRef}
         className="pointer-events-auto flex w-[92%] max-w-7xl items-center justify-between rounded-4xl bg-white px-6 lg:px-8 py-4 shadow-lg"

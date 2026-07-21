@@ -12,24 +12,36 @@ type HeroSlide = {
   buttonLabel: string;
   buttonHref: string;
   image: string;
+  logo?: string;
+  logoWidth?: number;
+  logoHeight?: number;
+  objectFit?: "cover" | "contain";
 };
+
+const LOGO_DISPLAY_HEIGHT = 64;
 
 const HERO_SLIDES: HeroSlide[] = [
   {
     tag: "Material Premium",
     title: "StoneFlex Exclusivos",
-    text: "Revestimientos de piedra flexible que combinan textura natural con tecnología moderna. Livianos, impermeables y de fácil instalación.",
+    text: "Stoneflex representa la vanguardia en revestimientos flexibles, combinando la belleza natural con la tecnología avanzada para ofrecer productos de alta durabilidad y versatilidad. Con una instalación sencilla y rápida.",
     buttonLabel: "Ver Productos",
     buttonHref: "/catalogo?category=65&page=1",
-    image: "/assets/images/banner/banner1.jpg",
+    image: "/assets/images/banner/portada-stoneflex.webp",
+    logo: "/assets/images/banner/stoneflex-logo.png",
+    logoWidth: 315,
+    logoHeight: LOGO_DISPLAY_HEIGHT,
   },
   {
     tag: "Nueva línea",
-    title: "Mutchek",
+    title: "Muchtek",
     text: "Solución versátil para revestir paredes interiores y exteriores con un acabado premium, resistente al tiempo y a la intemperie.",
     buttonLabel: "Ver Productos",
     buttonHref: "/catalogo?category=92&page=1",
-    image: "/assets/images/banner/banner2.jpg",
+    image: "/assets/images/banner/portada-muchtek.jpg",
+    logo: "/assets/images/banner/muchtek-logo.webp",
+    logoWidth: 196,
+    logoHeight: LOGO_DISPLAY_HEIGHT,
   },
   {
     tag: "Showroom abierto",
@@ -37,7 +49,7 @@ const HERO_SLIDES: HeroSlide[] = [
     text: "Visitanos en nuestra oficina en Salta Capital. Atención personalizada para que puedas ver y tocar los materiales antes de decidir.",
     buttonLabel: "Contactanos",
     buttonHref: "/#contacto",
-    image: "/assets/images/banner/banner3.jpg",
+    image: "/assets/images/banner/banner-oficina.webp",
   },
   {
     tag: "Asesoramiento profesional",
@@ -45,7 +57,7 @@ const HERO_SLIDES: HeroSlide[] = [
     text: "Somos arquitectos especializados que te acompañan en cada etapa de tu proyecto, desde la elección del material hasta el acabado final.",
     buttonLabel: "Consultanos",
     buttonHref: "/#contacto",
-    image: "/assets/images/banner/banner1.jpg",
+    image: "/assets/images/banner/banner-equipo.webp",
   },
   {
     tag: "Servicio completo",
@@ -122,7 +134,7 @@ export const HeroSlider = () => {
   const next = () => goTo((currentRef.current + 1) % HERO_SLIDES.length);
 
   return (
-    <div className="relative h-150 max-h-[90vh] w-full overflow-hidden">
+    <div className="relative h-120 max-h-[80vh] w-full overflow-hidden mt-6">
       {HERO_SLIDES.map((slide, i) => (
         <div
           key={i}
@@ -136,10 +148,10 @@ export const HeroSlider = () => {
             fill
             priority={i === 0}
             sizes="100vw"
-            className="object-cover"
+            className={`${slide.objectFit === "contain" ? "object-contain" : "object-cover"}`}
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/30 to-transparent" />
 
           {/* Content */}
           <div
@@ -149,9 +161,19 @@ export const HeroSlider = () => {
             <span className="mb-5 inline-block w-fit rounded-full bg-white/20 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-white backdrop-blur-sm">
               {slide.tag}
             </span>
-            <h1 className="mb-4 text-4xl font-bold uppercase leading-tight text-white">
-              {slide.title}
-            </h1>
+            {slide.logo ? (
+              <Image
+                src={slide.logo}
+                alt={`Logo ${slide.title}`}
+                width={slide.logoWidth}
+                height={slide.logoHeight}
+                className="mb-4 self-start object-contain"
+              />
+            ) : (
+              <h1 className="mb-4 text-4xl font-bold uppercase leading-tight text-white">
+                {slide.title}
+              </h1>
+            )}
             <p className="mb-8 max-w-sm text-base leading-relaxed text-white/80">
               {slide.text}
             </p>
