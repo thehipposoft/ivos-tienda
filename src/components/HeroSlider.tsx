@@ -49,7 +49,7 @@ const HERO_SLIDES: HeroSlide[] = [
     text: "Visitanos en nuestra oficina en Salta Capital. Atención personalizada para que puedas ver y tocar los materiales antes de decidir.",
     buttonLabel: "Contactanos",
     buttonHref: "https://wa.link/vng4k2",
-    image: "/assets/images/banner/banner-oficina.webp",
+    image: "/assets/images/banner/banner-showroom.webp",
   },
   {
     tag: "Asesoramiento profesional",
@@ -65,7 +65,7 @@ const HERO_SLIDES: HeroSlide[] = [
     text: "Nos encargamos del traslado, la colocación y el acabado de todos nuestros materiales. Vos solo tenés que disfrutar el resultado.",
     buttonLabel: "Consultanos",
     buttonHref: "https://wa.link/vng4k2",
-    image: "/assets/images/banner/banner2.jpg",
+    image: "/assets/images/banner/banner-instalaciones.webp",
   },
 ];
 
