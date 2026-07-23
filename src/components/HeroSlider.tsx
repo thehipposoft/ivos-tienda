@@ -48,7 +48,7 @@ const HERO_SLIDES: HeroSlide[] = [
     title: "Estamos en Salta",
     text: "Visitanos en nuestra oficina en Salta Capital. Atención personalizada para que puedas ver y tocar los materiales antes de decidir.",
     buttonLabel: "Contactanos",
-    buttonHref: "/#contacto",
+    buttonHref: "https://wa.link/vng4k2",
     image: "/assets/images/banner/banner-oficina.webp",
   },
   {
@@ -56,15 +56,15 @@ const HERO_SLIDES: HeroSlide[] = [
     title: "Equipo de Arquitectos",
     text: "Somos arquitectos especializados que te acompañan en cada etapa de tu proyecto, desde la elección del material hasta el acabado final.",
     buttonLabel: "Consultanos",
-    buttonHref: "/#contacto",
-    image: "/assets/images/banner/banner-equipo.webp",
+    buttonHref: "https://wa.link/vng4k2",
+    image: "/assets/images/banner/banner-equipo1.jpg",
   },
   {
     tag: "Servicio completo",
     title: "Hacemos Instalaciones",
     text: "Nos encargamos del traslado, la colocación y el acabado de todos nuestros materiales. Vos solo tenés que disfrutar el resultado.",
     buttonLabel: "Consultanos",
-    buttonHref: "/#contacto",
+    buttonHref: "https://wa.link/vng4k2",
     image: "/assets/images/banner/banner2.jpg",
   },
 ];
@@ -139,7 +139,9 @@ export const HeroSlider = () => {
         <div
           key={i}
           ref={(el) => { slideRefs.current[i] = el; }}
-          className={`absolute inset-0 ${i === 0 ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 ${i === 0 ? "opacity-100" : "opacity-0"} ${
+            i === current ? "pointer-events-auto" : "pointer-events-none"
+          }`}
         >
           {/* Background */}
           <Image
