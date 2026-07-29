@@ -43,12 +43,13 @@ export type GetProductsParams = {
 export const getProducts = async (
   params: GetProductsParams = {}
 ): Promise<WooProduct[]> => {
-  const query = new URLSearchParams({
-    per_page: String(params.per_page ?? 20),
-    page: String(params.page ?? 1),
-    ...(params.category && { category: params.category }),
-    ...(params.min_price && { min_price: params.min_price }),
-    ...(params.max_price && { max_price: params.max_price }),
+    const query = new URLSearchParams({
+      per_page: String(params.per_page ?? 20),
+      page: String(params.page ?? 1),
+      status: "publish", // 👈 agregar
+      ...(params.category && { category: params.category }),
+      ...(params.min_price && { min_price: params.min_price }),
+      ...(params.max_price && { max_price: params.max_price }),
   });
 
   const res = await fetch(
@@ -98,6 +99,7 @@ export const getProductsWithMeta = async (
   const query = new URLSearchParams({
     per_page: String(params.per_page ?? 12),
     page: String(params.page ?? 1),
+    status: "publish", 
     ...(params.category && { category: params.category }),
     ...(params.min_price && { min_price: params.min_price }),
     ...(params.max_price && { max_price: params.max_price }),
@@ -185,7 +187,7 @@ export const getProductBySlug = async (
   slug: string
 ): Promise<WooProduct | null> => {
   const res = await fetch(
-    `${BASE_URL}/wp-json/wc/v3/products?slug=${encodeURIComponent(slug)}&_fields=${PRODUCT_FIELDS}&${authParams()}`,
+    `${BASE_URL}/wp-json/wc/v3/products?slug=${encodeURIComponent(slug)}&status=publish&_fields=${PRODUCT_FIELDS}&${authParams()}`,
     { next: { revalidate: 60 } }
   );
   if (!res.ok) throw new Error(`Error al obtener producto: ${res.status}`);
@@ -204,7 +206,7 @@ export const getProductBySlug = async (
 
 export const getAllProductSlugs = async (): Promise<string[]> => {
   const res = await fetch(
-    `${BASE_URL}/wp-json/wc/v3/products?per_page=100&_fields=slug&${authParams()}`,
+    `${BASE_URL}/wp-json/wc/v3/products?per_page=100&status=publish&_fields=slug&${authParams()}`,
     { next: { revalidate: 3600 } }
   );
   if (!res.ok) return [];
