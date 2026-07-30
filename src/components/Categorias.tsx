@@ -11,18 +11,18 @@ type SubItem = {
 const INTERIOR_ITEMS: SubItem[] = [
   { label: "Placas PVC",     categoryId: 95, src: "/assets/images/materiales/placas-pvc.png" },
   { label: "Wall Panel",     categoryId: 96, src: "/assets/images/materiales/rev-interiores-pvc.jpg" },
-  { label: "Cielo Raso",      categoryId: 0,  src: null, color: "bg-stone-200" },
-  { label: "Piso y Zócalos", categoryId: 0,  src: null, color: "bg-amber-800" },
+  { label: "Cielo Raso",      categoryId: 0,  src: "/assets/images/materiales/Item Interior Cielorraso - IVOS.webp" },
+  { label: "Piso y Zócalos", categoryId: 0,  src: "/assets/images/materiales/Item Interior Pisos Y Zocalos - IVOS.webp" },
   { label: "Acústicos",      categoryId: 97, src: "/assets/images/materiales/paneles-acusticos.jpg" },
-  { label: "Accesorios",     categoryId: 0,  src: null, color: "bg-slate-400" },
+  { label: "Accesorios",     categoryId: 0,  src: "/assets/images/materiales/Item Interior Accesorios - IVOS.webp" },
 ];
 
 const EXTERIOR_ITEMS: SubItem[] = [
-  { label: "StoneFlex",      categoryId: 65, src: null, color: "bg-stone-500" },
-  { label: "Wall Panels",    categoryId: 96, src: null, color: "bg-emerald-900" },
+  { label: "StoneFlex",      categoryId: 65, src: "/assets/images/materiales/Item Exterior Stoneflex - IVOS.webp" },
+  { label: "Wall Panels",    categoryId: 96, src: "/assets/images/materiales/Item Exterior Wallpanel - IVOS.webp" },
   { label: "Perfiles WPC",   categoryId: 93, src: "/assets/images/materiales/perfiles-wpc.jpg" },
-  { label: "Deck",           categoryId: 0,  src: null, color: "bg-amber-700" },
-  { label: "Tubulares",      categoryId: 0,  src: null, color: "bg-zinc-600" },
+  { label: "Deck",           categoryId: 0,  src: "/assets/images/materiales/Item Exterior Deck - IVOS.webp" },
+  { label: "Tubulares",      categoryId: 0,  src: "/assets/images/materiales/Item Exterior Tubulares - IVOS.webp" },
   { label: "Chapas Caladas", categoryId: 94, src: "/assets/images/materiales/chapas-caladas.jpg" },
 ];
 
@@ -63,7 +63,7 @@ export const Categorias = ({ title, subtitle }: Props) => (
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-brand-blue/20" />
+          <div className="absolute inset-0 bg-brand-blue/15 group-hover:bg-brand-blue/5 duration-700" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
             <span className="text-5xl font-bold uppercase tracking-wide text-white drop-shadow">
               Interior
@@ -83,6 +83,7 @@ export const Categorias = ({ title, subtitle }: Props) => (
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
+          <div className="absolute inset-0 bg-brand-blue/10 group-hover:bg-brand-blue/5 duration-700" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
             <span className="text-5xl font-bold uppercase tracking-wide text-white drop-shadow">
               Exterior
@@ -104,14 +105,14 @@ export const Categorias = ({ title, subtitle }: Props) => (
                   alt={label}
                   fill
                   sizes="(max-width: 768px) 33vw, 16vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               ) : (
                 <div
                   className={`absolute inset-0 ${color ?? "bg-gray-300"} transition-transform duration-500 group-hover:scale-110`}
                 />
               )}
-              <div className="absolute bottom-0 left-0 right-0 bg-brand-blue/80 px-3 py-2">
+              <div className="absolute bottom-0 left-0 right-0 bg-brand-blue/50 group-hover:bg-bran-blue/80 group-hover:backdrop-blur-md group-hover:duration-700 duration-300 px-3 py-2">
                 <span className="text-sm font-bold text-white">{label}</span>
               </div>
             </div>
