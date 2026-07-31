@@ -18,8 +18,12 @@ const NAV_ITEMS = [
   { label: "Chapas Caladas", categoryId: 94 },
 ] satisfies { label: string; categoryId: number }[];
 
+const NAV_GAP_DEFAULT = "1.75rem";
+const NAV_GAP_COMPACT = "1rem";
+
 export const Menu = () => {
   const pillRef = useRef<HTMLDivElement>(null);
+  const navListRef = useRef<HTMLUListElement>(null);
   const pathname = usePathname();
   const { openCart, items } = useCartStore();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -28,18 +32,30 @@ export const Menu = () => {
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         start: "100px top",
-        onEnter: () =>
+        onEnter: () => {
           gsap.to(pillRef.current, {
             width: window.innerWidth < 768 ? "80%" : "72%",
             duration: 1,
             ease: "power2.out",
-          }),
-        onLeaveBack: () =>
+          });
+          gsap.to(navListRef.current, {
+            gap: NAV_GAP_COMPACT,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        },
+        onLeaveBack: () => {
           gsap.to(pillRef.current, {
             width: "92%",
             duration: 1,
             ease: "power2.out",
-          }),
+          });
+          gsap.to(navListRef.current, {
+            gap: NAV_GAP_DEFAULT,
+            duration: 1,
+            ease: "power2.out",
+          });
+        },
       });
     });
 
@@ -65,7 +81,7 @@ export const Menu = () => {
 
         {/* Nav */}
         <nav>
-          <ul className="hidden items-center gap-7 md:flex">
+          <ul ref={navListRef} className="hidden items-center gap-7 md:flex">
             {NAV_ITEMS.map(({ label, categoryId }) => (
               <li key={label}>
                 <Link

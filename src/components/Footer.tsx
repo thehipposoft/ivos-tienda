@@ -48,7 +48,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className='md:w-[85vw] w-[90vw] mx-auto flex justify-center'>
-        <Link href={'https://www.thehipposoft.com/'} target='_blank' className='text-white/50 md:text-lg py-5 hover:underline'>Created by <strong className='text-white'>HippoSoft</strong> | All Right Reserved</Link>
+        <Link href={'https://www.thehipposoft.com/'} target='_blank' className='text-white/50 md:text-sm py-4 hover:underline'>Created by <strong className='text-white'>HippoSoft</strong> | All Right Reserved</Link>
       </div>
     </div>
   )

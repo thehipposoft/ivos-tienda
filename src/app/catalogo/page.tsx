@@ -17,6 +17,9 @@ const CATEGORY_WHITELIST = [
   "WPC Exterior",
 ] as const;
 
+// Categorías agregadas por ID (nombre en WooCommerce no matchea el whitelist por nombre)
+const EXTRA_CATEGORY_IDS = [247, 98] as const;
+
 const OTROS_SENTINEL = "otros";
 
 const USO_OPTIONS = [
@@ -66,12 +69,20 @@ export default async function CatalogoPage({ searchParams }: Props) {
   ]);
 
   // Filtra y ordena según el whitelist
-  const visibleCategories = CATEGORY_WHITELIST.flatMap((name) => {
+  const whitelistCategories = CATEGORY_WHITELIST.flatMap((name) => {
     const match = allCategories.find(
       (c) => c.name.toLowerCase() === name.toLowerCase()
     );
     return match ? [match] : [];
   });
+
+  // Agrega categorías extra por ID
+  const extraCategories = EXTRA_CATEGORY_IDS.flatMap((id) => {
+    const match = allCategories.find((c) => c.id === id);
+    return match ? [match] : [];
+  });
+
+  const visibleCategories = [...whitelistCategories, ...extraCategories];
 
   const pillBase = {
     min_price: params.min_price,
@@ -83,7 +94,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
   return (
     <>
       <Menu />
-      <div className="mx-auto max-w-7xl px-8 pt-28 pb-12">
+      <div className="mx-auto max-w-7xl px-8 pt-20 pb-12">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Catálogo</h1>
