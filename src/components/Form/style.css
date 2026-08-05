@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.item { width: 100%; }
+
+.item.half { width: 49%; }
+
+.input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+    width: 100%;
+    transition: 300ms;
+}
+
+.input.error {
+    border: 3px solid #cc0017;
+    background-color: #cc001712;
+    font-weight: 600;
+}
+
+.input_box {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 80%;
+    width: 100%;
+}
+
+.contact-input-button {
+    margin-top: 0;
+}
+
+.error_message {
+    font-size: clamp(16px, 0.2em, 22px);
+    color: #cc0017;
+}
+
+.message {
+    min-height: 3em;
+    border: 1px solid;
+    border-radius: 2px;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.message h2 { font-size: clamp(24px, 0.2em, 30px); }
+.message p { font-size: clamp(16px, 0.2em, 24px); }
+
+.message.error {
+    background-color: #cc001712;
+    color: #cc0017;
+    border: 2px solid #cc0017;
+}
+
+.message.succeed {
+    background-color: #1ec61e40;
+    color: #33a533;
+    border: 2px solid #33a533;
+}
+
+@media (max-width: 480px) {
+    .item, .item.half { width: 100%; }
+
+    .input_button {
+        height: 6vh;
+        width: 50vw;
+        display: block;
+        margin: auto;
+    }
+}

@@ -1,6 +1,6 @@
 import type { CartItem } from "@/store/cartStore";
 
-const WA_NUMBER = "543875296426"; // número con código de país, sin + ni espacios
+const WA_NUMBER = "543875750595"; // número con código de país, sin + ni espacios
 
 export type ContactInfo = {
   name: string;
