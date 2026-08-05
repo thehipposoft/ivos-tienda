@@ -34,7 +34,7 @@ const Contact = () => {
                     onSuccessMessage={'Tu mensaje fue enviado con éxito. Nos contactaremos a la brevedad!'}
                     onErrorMessage={'Por favor, intenta de nuevo más tarde.'}
                     submitButtonLabel={'ENVIAR!'}
-                    emailServiceURL={'https://thehippoapi.netlify.app/.netlify/functions/api/ivos-email'}
+                    emailServiceURL={'https://tienda.ivos.com.ar/wp-json/ivos/v1/contact'}
                 />
             </div>
         </div>
