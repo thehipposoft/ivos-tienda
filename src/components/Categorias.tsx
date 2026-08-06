@@ -19,7 +19,7 @@ const INTERIOR_ITEMS: SubItem[] = [
 
 const EXTERIOR_ITEMS: SubItem[] = [
   { label: "StoneFlex",      categoryId: 65, src: "/assets/images/materiales/Item Exterior Stoneflex - IVOS.webp" },
-  { label: "Wall Panels",    categoryId: 96, src: "/assets/images/materiales/Item Exterior Wallpanel - IVOS.webp" },
+  { label: "Wall Panels",    categoryId: 256, src: "/assets/images/materiales/Item Exterior Wallpanel - IVOS.webp" },
   { label: "Perfiles WPC",   categoryId: 93, src: "/assets/images/materiales/perfiles-wpc.jpg" },
   { label: "Deck",           categoryId: 248,  src: "/assets/images/materiales/Item Exterior Deck - IVOS.webp" },
   { label: "Tubulares",      categoryId: 249,  src: "/assets/images/materiales/Item Exterior Tubulares - IVOS.webp" },
