@@ -22,7 +22,7 @@ export const RootLayout = ({
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="es" className={`${montserrat.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-hidden">
         {children}
         <CartDrawer />
         <WhatsAppButton />

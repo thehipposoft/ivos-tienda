@@ -49,13 +49,13 @@ export const CartDrawer = () => {
       <div
         ref={backdropRef}
         onClick={closeCart}
-        className="fixed inset-0 z-40 hidden bg-black/40 backdrop-blur-sm"
+        className="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm"
       />
 
       {/* Drawer */}
       <div
         ref={drawerRef}
-        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+        className="fixed right-0 top-0 z-60 flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
         style={{ transform: "translateX(100%)" }}
       >
         {/* Header */}

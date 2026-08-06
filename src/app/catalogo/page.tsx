@@ -9,6 +9,7 @@ const PER_PAGE = 12;
 const MENU_CATEGORIES = [
   { label: "Chapa Calada", categoryId: "94" },
   { label: "Deck", categoryId: "248" },
+  { label: "Perfiles WPC", categoryId: "77" },
   { label: "Muchtek", categoryId: "92" },
   { label: "Pisos y Zócalos", categoryId: "252" },
   { label: "Placa PVC", categoryId: "95" },
