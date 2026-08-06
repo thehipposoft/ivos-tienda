@@ -24,10 +24,10 @@ const PRODUCT_FIELDS = [
 
 const authParams = () => `consumer_key=${KEY}&consumer_secret=${SECRET}`;
 
-const USO_TERM_IDS: Record<string, string> = {
-  interior: "222",
-  exterior: "221",
-  "interior-y-exterior": "201",
+const USO_TAG_IDS: Record<string, string> = {
+  interior: "253",
+  exterior: "254",
+  "interior-y-exterior": "255",
 };
 
 export type GetProductsParams = {
@@ -104,7 +104,7 @@ export const getProductsWithMeta = async (
     ...(params.min_price && { min_price: params.min_price }),
     ...(params.max_price && { max_price: params.max_price }),
     ...(params.search && { search: params.search }),
-    ...(params.uso && USO_TERM_IDS[params.uso] && { attribute: "pa_uso", attribute_term: USO_TERM_IDS[params.uso] }),
+    ...(params.uso && USO_TAG_IDS[params.uso] && { tag: USO_TAG_IDS[params.uso] }),
   });
 
   const res = await fetch(

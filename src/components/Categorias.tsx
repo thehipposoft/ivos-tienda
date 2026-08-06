@@ -11,18 +11,18 @@ type SubItem = {
 const INTERIOR_ITEMS: SubItem[] = [
   { label: "Placas PVC",     categoryId: 95, src: "/assets/images/materiales/placas-pvc.png" },
   { label: "Wall Panel",     categoryId: 96, src: "/assets/images/materiales/rev-interiores-pvc.jpg" },
-  { label: "Cielo Raso",      categoryId: 0,  src: "/assets/images/materiales/Item Interior Cielorraso - IVOS.webp" },
-  { label: "Piso y Zócalos", categoryId: 0,  src: "/assets/images/materiales/Item Interior Pisos Y Zocalos - IVOS.webp" },
+  { label: "Cielo Raso",      categoryId: 251,  src: "/assets/images/materiales/Item Interior Cielorraso - IVOS.webp" },
+  { label: "Piso y Zócalos", categoryId: 252,  src: "/assets/images/materiales/Item Interior Pisos Y Zocalos - IVOS.webp" },
   { label: "Acústicos",      categoryId: 97, src: "/assets/images/materiales/paneles-acusticos.jpg" },
-  { label: "Accesorios",     categoryId: 0,  src: "/assets/images/materiales/Item Interior Accesorios - IVOS.webp" },
+  { label: "Accesorios",     categoryId: 250,  src: "/assets/images/materiales/Item Interior Accesorios - IVOS.webp" },
 ];
 
 const EXTERIOR_ITEMS: SubItem[] = [
   { label: "StoneFlex",      categoryId: 65, src: "/assets/images/materiales/Item Exterior Stoneflex - IVOS.webp" },
   { label: "Wall Panels",    categoryId: 96, src: "/assets/images/materiales/Item Exterior Wallpanel - IVOS.webp" },
   { label: "Perfiles WPC",   categoryId: 93, src: "/assets/images/materiales/perfiles-wpc.jpg" },
-  { label: "Deck",           categoryId: 0,  src: "/assets/images/materiales/Item Exterior Deck - IVOS.webp" },
-  { label: "Tubulares",      categoryId: 0,  src: "/assets/images/materiales/Item Exterior Tubulares - IVOS.webp" },
+  { label: "Deck",           categoryId: 248,  src: "/assets/images/materiales/Item Exterior Deck - IVOS.webp" },
+  { label: "Tubulares",      categoryId: 249,  src: "/assets/images/materiales/Item Exterior Tubulares - IVOS.webp" },
   { label: "Chapas Caladas", categoryId: 94, src: "/assets/images/materiales/chapas-caladas.jpg" },
 ];
 

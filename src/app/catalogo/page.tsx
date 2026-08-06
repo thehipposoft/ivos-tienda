@@ -1,24 +1,22 @@
 import Link from "next/link";
-import { getProductsWithMeta, getCategories } from "@/lib/woocommerce";
+import { getProductsWithMeta } from "@/lib/woocommerce";
 import { Menu } from "@/components/Menu";
 import { CatalogProductCard } from "@/components/CatalogProductCard";
 import { CatalogFilterPanel } from "@/components/CatalogFilterPanel";
 
 const PER_PAGE = 12;
 
-// Único listado de categorías visibles, en el orden deseado.
-// "Otros" es un sentinel: muestra todos los productos sin filtro de categoría.
-const CATEGORY_WHITELIST = [
-  "Acústicos",
-  "Chapa Calada",
-  "Placa PVC",
-  "Muchtek",
-  "StoneFlex",
-  "WPC Exterior",
+const MENU_CATEGORIES = [
+  { label: "Chapa Calada", categoryId: "94" },
+  { label: "Deck", categoryId: "248" },
+  { label: "Muchtek", categoryId: "92" },
+  { label: "Pisos y Zócalos", categoryId: "252" },
+  { label: "Placa PVC", categoryId: "95" },
+  { label: "StoneFlex", categoryId: "65" },
+  { label: "Tubulares", categoryId: "249" },
+  { label: "Wall Panel Exterior", categoryId: "256" },
+  { label: "Wall Panel Interior", categoryId: "247" },
 ] as const;
-
-// Categorías agregadas por ID (nombre en WooCommerce no matchea el whitelist por nombre)
-const EXTRA_CATEGORY_IDS = [247, 98] as const;
 
 const OTROS_SENTINEL = "otros";
 
@@ -55,34 +53,15 @@ export default async function CatalogoPage({ searchParams }: Props) {
   const apiCategory =
     params.category === OTROS_SENTINEL ? undefined : params.category;
 
-  const [{ products, total, totalPages }, allCategories] = await Promise.all([
-    getProductsWithMeta({
-      category: apiCategory,
-      min_price: params.min_price,
-      max_price: params.max_price,
-      search: params.search,
-      uso: params.uso,
-      per_page: PER_PAGE,
-      page,
-    }),
-    getCategories(),
-  ]);
-
-  // Filtra y ordena según el whitelist
-  const whitelistCategories = CATEGORY_WHITELIST.flatMap((name) => {
-    const match = allCategories.find(
-      (c) => c.name.toLowerCase() === name.toLowerCase()
-    );
-    return match ? [match] : [];
+  const { products, total, totalPages } = await getProductsWithMeta({
+    category: apiCategory,
+    min_price: params.min_price,
+    max_price: params.max_price,
+    search: params.search,
+    uso: params.uso,
+    per_page: PER_PAGE,
+    page,
   });
-
-  // Agrega categorías extra por ID
-  const extraCategories = EXTRA_CATEGORY_IDS.flatMap((id) => {
-    const match = allCategories.find((c) => c.id === id);
-    return match ? [match] : [];
-  });
-
-  const visibleCategories = [...whitelistCategories, ...extraCategories];
 
   const pillBase = {
     min_price: params.min_price,
@@ -101,61 +80,61 @@ export default async function CatalogoPage({ searchParams }: Props) {
           <p className="mt-1 text-sm text-gray-500">{total} productos encontrados</p>
         </div>
 
-        {/* Category pills — full width */}
-        <div className="mb-8">
-          <h3 className="mb-4 text-xl font-bold text-gray-900">Categorías</h3>
-          <div className="flex flex-wrap gap-2">
-            {/* Todos */}
-            <Link
-              href={buildUrl(pillBase, { page: "1" })}
-              className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
-                !params.category
-                  ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
-                  : "border-gray-300 text-gray-700 hover:border-gray-500"
-              }`}
-            >
-              Todos
-            </Link>
 
-            {visibleCategories.map((cat) => {
-              const active = params.category === String(cat.id);
-              return (
-                <Link
-                  key={cat.id}
-                  href={active ? buildUrl(pillBase, { page: "1" }) : buildUrl(pillBase, { category: String(cat.id), page: "1" })}
-                  className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
-                    active
-                      ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
-                      : "border-gray-300 text-gray-700 hover:border-gray-500"
-                  }`}
-                >
-                  {cat.name}
-                </Link>
-              );
-            })}
-
-            {/* Otros */}
-            {(() => {
-              const active = params.category === OTROS_SENTINEL;
-              return (
-                <Link
-                  href={active ? buildUrl(pillBase, { page: "1" }) : buildUrl(pillBase, { category: OTROS_SENTINEL, page: "1" })}
-                  className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
-                    active
-                      ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
-                      : "border-gray-300 text-gray-700 hover:border-gray-500"
-                  }`}
-                >
-                  Otros
-                </Link>
-              );
-            })()}
-          </div>
-        </div>
 
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Sidebar */}
           <CatalogFilterPanel>
+            {/* Categorías */}
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
+              Categorías
+            </h3>
+            <div className="mb-6 flex flex-wrap gap-1.5">
+              <Link
+                href={buildUrl(pillBase, { page: "1" })}
+                className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
+                  !params.category
+                    ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
+                    : "border-gray-200 text-gray-600 hover:border-gray-400"
+                }`}
+              >
+                Todos
+              </Link>
+
+              {MENU_CATEGORIES.map((cat) => {
+                const active = params.category === cat.categoryId;
+                return (
+                  <Link
+                    key={cat.categoryId}
+                    href={active ? buildUrl(pillBase, { page: "1" }) : buildUrl(pillBase, { category: cat.categoryId, page: "1" })}
+                    className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
+                      active
+                        ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
+                        : "border-gray-200 text-gray-600 hover:border-gray-400"
+                    }`}
+                  >
+                    {cat.label}
+                  </Link>
+                );
+              })}
+
+              {/* Otros */}
+              {(() => {
+                const active = params.category === OTROS_SENTINEL;
+                return (
+                  <Link
+                    href={active ? buildUrl(pillBase, { page: "1" }) : buildUrl(pillBase, { category: OTROS_SENTINEL, page: "1" })}
+                    className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
+                      active
+                        ? "border-[#F94E19] bg-[#F94E19] font-semibold text-white"
+                        : "border-gray-200 text-gray-600 hover:border-gray-400"
+                    }`}
+                  >
+                    Otros
+                  </Link>
+                );
+              })()}
+            </div>
 
             {/* Búsqueda */}
             <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
@@ -289,7 +268,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
           {/* Grid */}
           <div className="flex-1">
             {products.length === 0 ? (
-              <div className="flex h-48 items-center justify-center rounded-2xl border border-dashed border-gray-200">
+              <div className="flex min-h-96 lg:min-w-4xl w-full items-center justify-center rounded-2xl border border-dashed border-gray-200">
                 <p className="text-sm text-gray-400">No se encontraron productos.</p>
               </div>
             ) : (
