@@ -194,7 +194,7 @@ export const HeroSlider = () => {
         type="button"
         onClick={prev}
         aria-label="Anterior"
-        className="absolute cursor-pointer left-4 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center text-white/50 transition-colors duration-200 hover:text-white"
+        className="absolute cursor-pointer lg:left-4 left-1 top-1/2 z-10 -translate-y-1/2 flex h-12 w-12 items-center justify-center text-white/70 transition-colors duration-200 hover:text-white"
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="m15 18-6-6 6-6" />
@@ -206,7 +206,7 @@ export const HeroSlider = () => {
         type="button"
         onClick={next}
         aria-label="Siguiente"
-        className="absolute cursor-pointer right-4 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center text-white/50 transition-colors duration-200 hover:text-white"
+        className="absolute cursor-pointer lg:right-4 right-1 top-1/2 z-10 -translate-y-1/2 flex h-12 w-12 items-center justify-center text-white/70 transition-colors duration-200 hover:text-white"
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="m9 18 6-6-6-6" />

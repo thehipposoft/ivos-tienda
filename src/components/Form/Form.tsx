@@ -76,17 +76,19 @@ const MyCustomForm = ({
         if (event) event.preventDefault();
 
         setIsAPILoading(true);
+
+        const body = new URLSearchParams({
+            name: values.name,
+            phoneNumber: String(values.phoneNumber),
+            message: values.message,
+        });
+
         fetch(emailServiceURL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({
-                name: values.name,
-                phoneNumber: values.phoneNumber,
-                message: values.message,
-            }),
+            body: body.toString(),
         })
             .then((response) => {
                 if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
@@ -165,12 +167,12 @@ const MyCustomForm = ({
                 })
             }
             {renderSentMessage()}
-            <div className='flex col-span-2'>
+            <div className='flex justify-center lg:justify-end col-span-2'>
                 <button
                     disabled={isAPILoading}
                     value={submitButtonLabel ? submitButtonLabel : 'Enviar'}
                     type="submit"
-                    className={` ${isAPILoading ? 'opacity-50' : ''} cursor-pointer md:w-[180px] font-bold flex items-center justify-center w-1/2 h-[70px] bg-[#F94E19] border-[#F94E19] border-[3px] border duration-500 hover:bg-transparent rounded-tl-[30px] rounded-br-[30px]`}
+                    className={` ${isAPILoading ? 'opacity-50' : ''} cursor-pointer md:w-[180px] font-bold flex items-center justify-center w-1/2 h-[70px] bg-[#F94E19] border-[#F94E19] border-[3px] border duration-500 hover:bg-transparent rounded-tr-[30px] rounded-bl-[30px]`}
                 >
                     {submitButtonLabel}
                 </button>

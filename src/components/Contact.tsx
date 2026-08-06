@@ -3,7 +3,7 @@ import { Form } from './Form';
 
 const Contact = () => {
     return (
-        <div className='h-[800px] flex justify-center items-center' id='contacto'>
+        <div className='lg:h-160 flex justify-center items-center' id='contacto'>
             <div className='flex flex-col w-[85vw] lg:w-[950px] 2xl:w-[1300px] mx-auto'>
                 <h4 className='font-bold text-4xl'>CONTACTANOS</h4>
                 <p className='pb-12'>No pierdas más tu tiempo. <strong>Transformá tus espacios de forma eficiente</strong></p>
