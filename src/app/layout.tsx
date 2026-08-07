@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { CartDrawer } from "@/components/CartDrawer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import Footer from "@/components/Footer";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -40,6 +41,7 @@ export const RootLayout = ({
     <html lang="es" className={`${montserrat.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col overflow-x-hidden">
         {children}
+        <GoogleAnalytics />
         <CartDrawer />
         <WhatsAppButton />
         <Footer />
