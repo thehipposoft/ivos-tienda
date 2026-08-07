@@ -24,8 +24,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://ivos.com.ar/assets/logo-meta.jpg",
-        width: 1200,
-        height: 630,
+        width: 901,
+        height: 581,
       },
     ],
     locale: "es_AR",
