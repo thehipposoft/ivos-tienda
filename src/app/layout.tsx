@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "@/styles/globals.css";
 import { CartDrawer } from "@/components/CartDrawer";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
-import Footer from "@/components/Footer";
+import { SiteChrome } from "@/components/SiteChrome";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const montserrat = Montserrat({
@@ -43,8 +42,7 @@ export const RootLayout = ({
         {children}
         <GoogleAnalytics />
         <CartDrawer />
-        <WhatsAppButton />
-        <Footer />
+        <SiteChrome />
       </body>
     </html>
   );

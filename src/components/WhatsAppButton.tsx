@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const WHATSAPP_URL = "https://wa.link/vng4k2";
+export const WHATSAPP_URL = "https://wa.link/vng4k2";
 
 export const WhatsAppButton = () => (
   <Link
