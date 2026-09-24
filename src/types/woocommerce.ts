@@ -15,6 +15,13 @@ export type WooCategory = {
   id: number;
   name: string;
   slug: string;
+  parent?: number;
+};
+
+export type WooTag = {
+  id: number;
+  name: string;
+  slug: string;
 };
 
 export type WooVariationAttribute = {
@@ -58,6 +65,14 @@ export type WooProduct = {
   images: WooImage[];
   categories: WooCategory[];
   attributes: WooAttribute[];
+  tags?: WooTag[];
   variations?: WooVariation[];  // solo en productos variables
   price_range?: PriceRange;     // calculado al fetchear, disponible en todos lados
+};
+
+// Producto recortado para el catálogo client-side
+export type CatalogProduct = WooProduct & {
+  categoryIds: number[]; // incluye categorías ancestro
+  tagIds: number[];
+  searchText: string; // título + extracto + contenido, normalizado
 };

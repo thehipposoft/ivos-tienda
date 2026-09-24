@@ -4,8 +4,6 @@ import { getProductBySlug, getAllProductSlugs } from "@/lib/woocommerce";
 import { Menu } from "@/components/Menu";
 import { ProductPageClient } from "@/components/ProductPageClient";
 
-export const revalidate = 3600;
-
 type Props = { params: Promise<{ slug: string }> };
 
 export const generateStaticParams = async () => {
