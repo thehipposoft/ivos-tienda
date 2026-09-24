@@ -19,10 +19,10 @@ public/          → assets estáticos
     fonts/
 
 ## Comandos
-- `npm run dev`       → servidor de desarrollo
-- `npm run build`     → build de producción
-- `npm run lint`      → chequeo con ESLint
-- `npm run typecheck` → tsc --noEmit
+- `yarn dev`       → servidor de desarrollo
+- `yarn build`     → build de producción
+- `yarn lint`      → chequeo con ESLint
+- `yarn typecheck` → tsc --noEmit
 
 ## Reglas para tareas autónomas
 - No modificar `app/layout.tsx` sin preguntar antes
