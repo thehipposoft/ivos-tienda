@@ -1,18 +1,31 @@
-export default async function getFeed() {
-    const response = await fetch(`https://wp.thehipposoft.com/wp-json/hippo/v1/token?website=ivos`, {
-        headers: {
-            'x-api-key': process.env.WORDPRESS_API_SECRET!,
-        },
+import type { Post } from "@/types/instagram";
+
+const FEED_REVALIDATE_SECONDS = 3600;
+const FEED_TIMEOUT_MS = 5000;
+
+const cachedFetch = (url: string, headers?: HeadersInit) =>
+    fetch(url, {
+        headers,
+        next: { revalidate: FEED_REVALIDATE_SECONDS },
+        signal: AbortSignal.timeout(FEED_TIMEOUT_MS),
     });
-    const data = await response.json();
-    const token = data.token;
 
-    const res = await fetch(`https://graph.instagram.com/me/media?fields=id,caption,media_url,permalink,media_type,thumbnail_url&limit=6&access_token=${token}`);
-    const resJson = await res.json();
+// Si Instagram falla, la home se renderiza sin feed en vez de romper
+export default async function getFeed(): Promise<Post[]> {
+    try {
+        const response = await cachedFetch(`https://wp.thehipposoft.com/wp-json/hippo/v1/token?website=ivos`, {
+            'x-api-key': process.env.WORDPRESS_API_SECRET ?? '',
+        });
+        if (!response.ok) throw new Error(`Token ${response.status}`);
+        const { token } = (await response.json()) as { token: string };
 
-    if (!res.ok) {
-        throw new Error('Failed to fetch Instagram feed');
+        const res = await cachedFetch(`https://graph.instagram.com/me/media?fields=id,caption,media_url,permalink,media_type,thumbnail_url&limit=6&access_token=${token}`);
+        if (!res.ok) throw new Error(`Instagram ${res.status}`);
+        const resJson = (await res.json()) as { data?: Post[] };
+
+        return resJson.data ?? [];
+    } catch (error) {
+        console.error('Failed to fetch Instagram feed:', error);
+        return [];
     }
-
-    return resJson.data;
 }

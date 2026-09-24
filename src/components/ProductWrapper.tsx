@@ -1,12 +1,10 @@
-import { getProducts } from "@/lib/woocommerce";
 import { ProductSlider } from "@/components/ProductSlider";
 import Link from "next/link";
+import type { WooProduct } from "@/types/woocommerce";
 
-type Props = { title: string, buttonText?: string, buttonHref?: string };
+type Props = { products: WooProduct[], title: string, buttonText?: string, buttonHref?: string };
 
-export const ProductWrapper = async ({ title, buttonText, buttonHref }: Props) => {
-  const products = await getProducts({ per_page: 20 });
-
+export const ProductWrapper = ({ products, title, buttonText, buttonHref }: Props) => {
   return (
     <section className="py-20 max-w-7xl mx-auto text-center lg:text-left">
       <h2 className="mb-8 text-4xl font-bold text-gray-900 px-4">{title}</h2>
