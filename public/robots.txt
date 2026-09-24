@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+# Variantes con query string de /catalogo: mismo contenido que /catalogo
+Disallow: /catalogo?
+
+Sitemap: https://ivos.com.ar/sitemap.xml
