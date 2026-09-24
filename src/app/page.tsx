@@ -3,7 +3,7 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { Categorias } from "@/components/Categorias";
 import { ProductWrapper } from "@/components/ProductWrapper";
 import getFeed from "@/lib/getFeed";
-import { getProducts } from "@/lib/woocommerce";
+import { getAllProducts } from "@/lib/woocommerce";
 import RedesSociales from "@/components/RedesSociales";
 import Contact from "@/components/Contact";
 
@@ -13,7 +13,7 @@ const Home = async () => {
   // En paralelo: antes el feed bloqueaba el fetch de productos
   const [instagramFeed, products] = await Promise.all([
     getFeed(),
-    getProducts({ per_page: FEATURED_PRODUCTS_COUNT }),
+    getAllProducts().then((products) => products.slice(0, FEATURED_PRODUCTS_COUNT)),
   ]);
 
   return (

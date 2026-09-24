@@ -16,9 +16,14 @@ export const PRODUCTS_REVALIDATE_SECONDS = 3600;
 // revalidateTag(PRODUCTS_TAG) invalida todas las páginas con productos
 export const PRODUCTS_TAG = "products";
 
-// WooCommerce tarda 2–4 s por request; cortamos antes de que la función quede colgada
-const FETCH_TIMEOUT_MS = 5000;
-const LIST_FETCH_TIMEOUT_MS = 10000;
+// WooCommerce tarda 2–4 s por request; en runtime cortamos antes de que la función quede colgada
+const RUNTIME_TIMEOUT_MS = 5000;
+const RUNTIME_LIST_TIMEOUT_MS = 10000;
+// En build (no consume compute) WooCommerce se satura con los prerenders en paralelo
+const BUILD_TIMEOUT_MS = 30000;
+const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
+const FETCH_TIMEOUT_MS = IS_BUILD ? BUILD_TIMEOUT_MS : RUNTIME_TIMEOUT_MS;
+const LIST_FETCH_TIMEOUT_MS = IS_BUILD ? BUILD_TIMEOUT_MS : RUNTIME_LIST_TIMEOUT_MS;
 const MAX_PER_PAGE = 100;
 // Evita loops si la jerarquía de categorías está corrupta
 const MAX_CATEGORY_DEPTH = 10;
@@ -34,25 +39,9 @@ const PRODUCT_FIELDS = [
   "stock_status",
   "images",
   "categories",
+  "tags",
   "attributes",
   "variations",
-  "short_description",
-  "description",
-  "price_html",
-].join(",");
-
-const CATALOG_FIELDS = [
-  "id",
-  "name",
-  "slug",
-  "type",
-  "price",
-  "regular_price",
-  "sale_price",
-  "stock_status",
-  "images",
-  "categories",
-  "tags",
   "short_description",
   "description",
   "price_html",
@@ -92,6 +81,13 @@ const withPriceRange = <P extends WooProduct>(p: P): P => {
   return price_range ? { ...p, price_range } : p;
 };
 
+// Lista completa (orden de WooCommerce: más nuevos primero). Única fuente para home, catálogo, fichas y sitemap:
+// en build sale 1 vez a la red y el resto de las páginas la leen del cache de fetch
+export const getAllProducts = async (): Promise<WooProduct[]> => {
+  const products = await wcFetchAll<WooProduct>(`products?status=publish&_fields=${PRODUCT_FIELDS}`);
+  return products.map(withPriceRange);
+};
+
 export type GetProductsParams = {
   category?: string;
   per_page?: number;
@@ -129,10 +125,7 @@ const stripHtml = (html: string): string => html.replace(/<[^>]*>/g, " ");
 
 // Catálogo completo, recortado a lo que usa la card + datos para filtrar en el cliente
 export const getCatalogProducts = async (): Promise<CatalogProduct[]> => {
-  const [products, categories] = await Promise.all([
-    wcFetchAll<WooProduct>(`products?status=publish&_fields=${CATALOG_FIELDS}`),
-    getCategories(),
-  ]);
+  const [products, categories] = await Promise.all([getAllProducts(), getCategories()]);
 
   const parentOf = new Map(categories.map((c) => [c.id, c.parent ?? 0]));
 
@@ -149,24 +142,21 @@ export const getCatalogProducts = async (): Promise<CatalogProduct[]> => {
     return [...all];
   };
 
-  return products.map((p) => {
-    const product = withPriceRange(p);
-    return {
-      ...product,
-      images: product.images.slice(0, 1).map(({ id, src, alt }) => ({ id, src, alt })),
-      categories: product.categories.map(({ id, name, slug }) => ({ id, name, slug })),
-      attributes: [],
-      tags: undefined,
-      description: "",
-      short_description: "",
-      price_html: undefined,
-      categoryIds: withAncestors(product.categories.map((c) => c.id)),
-      tagIds: (product.tags ?? []).map((t) => t.id),
-      searchText: normalizeText(
-        [product.name, stripHtml(product.short_description), stripHtml(product.description)].join(" ")
-      ).replace(/\s+/g, " "),
-    };
-  });
+  return products.map((product) => ({
+    ...product,
+    images: product.images.slice(0, 1).map(({ id, src, alt }) => ({ id, src, alt })),
+    categories: product.categories.map(({ id, name, slug }) => ({ id, name, slug })),
+    attributes: [],
+    tags: undefined,
+    description: "",
+    short_description: "",
+    price_html: undefined,
+    categoryIds: withAncestors(product.categories.map((c) => c.id)),
+    tagIds: (product.tags ?? []).map((t) => t.id),
+    searchText: normalizeText(
+      [product.name, stripHtml(product.short_description), stripHtml(product.description)].join(" ")
+    ).replace(/\s+/g, " "),
+  }));
 };
 
 // ── helper para calcular el rango ───────────────
@@ -224,18 +214,28 @@ function parsePriceRange(priceHtml: string): PriceRange | undefined {
   };
 }
 
-// null solo si el producto no existe. Errores de red lanzan para no cachear un 404 falso
+const safeDecode = (value: string): string => {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+};
+
+// Sale de la lista cacheada: evita un request por ficha. null solo si no existe; errores de red lanzan
 export const getProductBySlug = async (
   slug: string
 ): Promise<WooProduct | null> => {
-  const res = await wcFetch(
-    `products?slug=${encodeURIComponent(slug)}&status=publish&_fields=${PRODUCT_FIELDS}`
-  );
-  const data = (await res.json()) as WooProduct[];
-  const product = data[0] ?? null;
+  const target = safeDecode(slug);
+  const products = await getAllProducts();
+  const found = products.find((p) => safeDecode(p.slug) === target);
+  if (!found) return null;
+
+  // Copia: la lista es compartida entre páginas
+  const product = { ...found };
 
   // Las variaciones necesitan el id: no se puede paralelizar
-  if (product?.type === "variable") {
+  if (product.type === "variable") {
     const variations = await getProductVariations(product.id);
     product.variations = variations;
     product.price_range = calcPriceRange(variations);
@@ -245,6 +245,6 @@ export const getProductBySlug = async (
 };
 
 export const getAllProductSlugs = async (): Promise<string[]> => {
-  const data = await wcFetchAll<{ slug: string }>("products?status=publish&_fields=slug");
-  return data.map(({ slug }) => slug);
+  const products = await getAllProducts();
+  return products.map(({ slug }) => slug);
 };
